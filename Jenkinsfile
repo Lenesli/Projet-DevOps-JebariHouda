@@ -10,13 +10,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'javac app\\Main.java'
+                sh 'javac app/Main.java'
             }
         }
 
         stage('Test/Run') {
             steps {
-                bat 'java -cp app Main'
+                sh 'java -cp app Main'
             }
         }
 
