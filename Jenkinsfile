@@ -25,7 +25,7 @@ pipeline {
                 archiveArtifacts artifacts: 'app/*.class', fingerprint: true
             }
         }
-        sstage('Notify Slack') {
+        stage('Notify Slack') {
             steps {
                 withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_WEBHOOK')]) {
                 sh '''
