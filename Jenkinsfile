@@ -27,12 +27,14 @@ pipeline {
         }
         stage('Notify Slack') {
             steps {
-                withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_WEBHOOK')]) {
-                sh '''
+              withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_WEBHOOK')]) {
+                script {
+                    def msg = "✅ Jenkins SUCCESS - PipeLine-JebariHouda - Build #${env.BUILD_NUMBER}"
+                    sh """
                     curl -X POST -H 'Content-type: application/json' \
-                    --data '{"text":"✅ Jenkins SUCCESS - PipeLine-JebariHouda - Build #${BUILD_NUMBER}"}' \
-                    "$SLACK_WEBHOOK"
-                '''
+                    --data '{\"text\":\"${msg}\"}' \
+                    "\$SLACK_WEBHOOK"
+                    """
                 }
             }
         }
