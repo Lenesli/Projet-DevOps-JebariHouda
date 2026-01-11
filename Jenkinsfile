@@ -25,19 +25,20 @@ pipeline {
                 archiveArtifacts artifacts: 'app/*.class', fingerprint: true
             }
         }
+
         stage('Notify Slack') {
             steps {
-              withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_WEBHOOK')]) {
-                script {
-                    def msg = "✅ Jenkins SUCCESS - PipeLine-JebariHouda - Build #${env.BUILD_NUMBER}"
-                    sh """
-                    curl -X POST -H 'Content-type: application/json' \
-                    --data '{\"text\":\"${msg}\"}' \
-                    "\$SLACK_WEBHOOK"
-                    """
+                withCredentials([string(credentialsId: 'slack-webhook', variable: 'SLACK_WEBHOOK')]) {
+                    script {
+                        def msg = "✅ Jenkins SUCCESS - PipeLine-JebariHouda - Build #${env.BUILD_NUMBER}"
+                        sh """
+                          curl -X POST -H 'Content-type: application/json' \
+                          --data '{\"text\":\"${msg}\"}' \
+                          "\$SLACK_WEBHOOK"
+                        """
+                    }
                 }
             }
         }
-
     }
 }
